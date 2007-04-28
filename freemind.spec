@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 2
+Release:        %mkrel 3
 Epoch:          0
 Summary:        Free mind mapping software
 License:        GPL
@@ -16,7 +16,6 @@ Source2:        freemind.sh
 Patch0:         freemind-build.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-Requires:       jamvm
 Requires:       mozilla-firefox
 BuildRequires:  ant
 BuildRequires:  desktop-file-utils
@@ -109,11 +108,6 @@ Javadoc for %{name}.
 %{_bindir}/convert -scale 32 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
 %{_bindir}/convert -scale 48 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 
-%{__mkdir_p} %{buildroot}%{_sysconfdir}
-%{__cat} > %{buildroot}%{_sysconfdir}/%{name}.conf << EOF
-JAVA_HOME=%{_jvmdir}/java-1.4.2-jamvm-1.4.2.0
-EOF
-
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
 %endif
@@ -169,7 +163,6 @@ fi
 %dir %{_libdir}/gcj/%{name}
 %attr(-,root,root) %{_libdir}/gcj/%{name}/*.jar.*
 %endif
-%config(noreplace) %{_sysconfdir}/%{name}.conf
 
 %files javadoc
 %defattr(0644,root,root,0755)
