@@ -2,15 +2,15 @@
 %define gcj_support     1
 
 Name:           freemind
-Version:        0.9.0
-Release:        %mkrel 3
-Epoch:          0
+Version:        0.7.1
+Release:        %mkrel 1
+Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
 URL:            http://freemind.sourceforge.net/
 Group:          Development/Java
-# cvs -z3 -d:pserver:anonymous@freemind.cvs.sourceforge.net:/cvsroot/freemind co -P freemind
-Source0:        freemind.tar.bz2
+# cvs -z3 -d:pserver:anonymous@freemind.cvs.sourceforge.net:/cvsroot/freemind co -P -r FM-0-7-1 freemind
+Source0:        freemind-%{version}.tar.bz2
 Source1:        freemind.desktop
 Source2:        freemind.sh
 Patch0:         freemind-build.patch
@@ -26,7 +26,7 @@ Requires(post): java-gcj-compat
 Requires(postun): java-gcj-compat
 BuildRequires:  java-gcj-compat-devel
 %else
-BuildRequires:  java-devel >= 0:1.4.2
+BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -51,20 +51,21 @@ that?
 
 %package javadoc
 Summary:        Javadoc for %{name}
-Group:          Development/Documentation
+Group:          Development/Java
 
 %description javadoc
 Javadoc for %{name}.
 
 %prep
-%setup -q -n %{name}
-%{_bindir}/find -type d -name CVS | %{_bindir}/xargs -t %{__rm} -rf
+%setup -q
+%{_bindir}/find -type d -name CVS | %{_bindir}/xargs -t %{__rm} -r
 %patch0 -p1
 %{__perl} -pi -e 's/^Class-Path:.*\n//' MANIFEST.MF
 %{__perl} -pi -e 's/^properties_folder = freemind$/properties_folder = .freemind/;' \
               -e 's|\./|file://%{_datadir}/%{name}/|g;' \
               -e 's|mozilla|mozilla-firefox|;' \
   freemind.properties user.properties
+%{__perl} -pi -e 's/<javadoc/<javadoc source="1.4"/g' build.xml
 
 %build
 %{ant} dist browser doc
@@ -93,7 +94,7 @@ Javadoc for %{name}.
 %{__cp} -a accessories/ doc/ html/ %{buildroot}%{_datadir}/%{name}
 
 # freedesktop.org menu entry
-%{_bindir}/desktop-file-install --vendor="" \
+%{_bindir}/desktop-file-install --vendor="mandriva" \
   --remove-category="Application" \
   --add-category="X-MandrivaLinux-Office-Presentations" \
   --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
@@ -142,7 +143,7 @@ fi
 %defattr(0644,root,root,0755)
 %doc history.txt license
 %attr(0755,root,root) %{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/*%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/icons/hicolor/16x16/apps/%{name}.png
 %{_datadir}/icons/hicolor/32x32/apps/%{name}.png
@@ -168,6 +169,4 @@ fi
 %defattr(0644,root,root,0755)
 %dir %{_javadocdir}/%{name}-%{version}
 %{_javadocdir}/%{name}-%{version}/*
-%ghost %dir %{_javadocdir}/%{name}
-
-
+%dir %{_javadocdir}/%{name}
