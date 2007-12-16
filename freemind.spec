@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.7.1
-Release:        %mkrel 2
+Release:        %mkrel 3
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
@@ -20,7 +20,7 @@ Requires:       mozilla-firefox
 BuildRequires:  ant
 BuildRequires:  desktop-file-utils
 BuildRequires:  ImageMagick
-BuildRequires:  jpackage-utils
+BuildRequires:  java-rpmbuild
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel
 %else
