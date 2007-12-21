@@ -27,6 +27,7 @@ BuildRequires:  java-gcj-compat-devel
 BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 FreeMind is a premier free mind-mapping software written in Java. The 
