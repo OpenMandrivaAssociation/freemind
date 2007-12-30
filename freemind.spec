@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.3
+Release:        %mkrel 0.0.4
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
@@ -228,6 +228,8 @@ pushd %{buildroot}%{_datadir}/%{name}
 %{__rm} freemind.bat
 %{__rm} Freemind.exe
 %{__rm} freemind.sh
+%{__rm} -r doc/javadoc
+%{__ln_s} %{_javadocdir}/%{name} doc/javadoc
 %{__ln_s}f %{_javadir}/freemindbrowser.jar browser/freemindbrowser.jar
 %{__ln_s}f %{_javadir}/freemind.jar lib/freemind.jar
 %{__ln_s}f $(build-classpath jgoodies-forms) lib/forms-1.0.5.jar
@@ -312,6 +314,5 @@ popd
 
 %files javadoc
 %defattr(0644,root,root,0755)
-%dir %{_javadocdir}/%{name}-%{version}
-%{_javadocdir}/%{name}-%{version}/*
-%dir %{_javadocdir}/%{name}
+%doc %{_javadocdir}/%{name}-%{version}
+%doc %{_javadocdir}/%{name}
