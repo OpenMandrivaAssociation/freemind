@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.1
+Release:        %mkrel 0.0.2
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
@@ -15,8 +15,9 @@ Source2:        freemind.sh
 Source3:        freemind.xml
 Source4:        freemind-bindings.patch
 Patch0:         freemind-build.patch
-# FIXME: requires rewriting for real fix
+# FIXME: this requires rewriting for a real fix
 Patch1:         freemind-simplyhtml.patch
+# FIXME: figure out what's really wrong with the bindings
 Patch2:         freemind-patch-bindings.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
@@ -101,7 +102,6 @@ pushd lib/SimplyHTML
 popd
 
 pushd lib
-# FIXME: this needs to go
 %{__rm} bindings.jar
 %{__ln_s}f $(build-classpath commons-lang) commons-lang-2.0.jar
 %{__rm} forms-1.0.5-src.zip
@@ -142,7 +142,7 @@ pushd plugins/latex
 popd
 
 pushd plugins/script
-# FIXME: not in mdv
+# FIXME: not in mdv (requires maven to build)
 %{__rm} groovy-all-1.0.jar
 popd
 
@@ -170,8 +170,7 @@ pushd plugins/svg
 %{__ln_s}f $(build-classpath xml-commons-apis) xml-apis.jar
 popd
 
-# FIXME
-JARS=`%{_bindir}/find . ! -type l -name '*.jar' -a ! -name 'bindings.jar'`
+JARS=`%{_bindir}/find . ! -type l -name '*.jar'`
 test -z "$JARS" || exit 1
 
 %{__rm} -r plugins/latex
