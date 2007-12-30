@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.2
+Release:        %mkrel 0.0.3
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
@@ -25,6 +25,7 @@ Requires:       mozilla-firefox
 Requires:       crimson
 Requires:       simplyhtml
 Requires:       jakarta-commons-lang
+Requires:       jakarta-oro
 Requires:       jgoodies-forms
 Requires:       jibx
 Requires:       echomine-muse
@@ -41,6 +42,7 @@ BuildRequires:  java-rpmbuild
 BuildRequires:  crimson
 BuildRequires:  simplyhtml
 BuildRequires:  jakarta-commons-lang
+BuildRequires:  jakarta-oro
 BuildRequires:  jgoodies-forms
 BuildRequires:  junit
 BuildRequires:  jarbundler
