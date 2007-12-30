@@ -119,7 +119,7 @@ pushd lib/jibx
 %{__ln_s}f $(build-classpath jibx/bind) jibx-bind.jar
 %{__ln_s}f $(build-classpath jibx/extras) jibx-extras.jar
 %{__ln_s}f $(build-classpath jibx/run) jibx-run.jar
-%{__ln_s}f %(build-classpath xsd2jibx) xsd2jibx.jar
+%{__ln_s}f $(build-classpath xsd2jibx) xsd2jibx.jar
 popd
 
 pushd plugins/collaboration/jabber
