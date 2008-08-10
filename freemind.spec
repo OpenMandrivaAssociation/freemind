@@ -1,27 +1,23 @@
 %define section         free
-%define gcj_support     1
+%define gcj_support     0
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.5
+Release:        %mkrel 0.0.6
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
 URL:            http://freemind.sourceforge.net/
 Group:          Development/Java
-Source0:        freemind-src-0.9.0_Beta_15_icon_butterfly.tar.gz
+Source0:        http://downloads.sourceforge.net/sourceforge/freemind/freemind-src-0.9.0_Beta_19.tar.gz
 Source1:        freemind.desktop
 Source2:        freemind.sh
 Source3:        freemind.xml
 Source4:        freemind-bindings.patch
-Patch0:         freemind-build.patch
-# FIXME: this requires rewriting for a real fix
-Patch1:         freemind-simplyhtml.patch
-# FIXME: figure out what's really wrong with the bindings
-Patch2:         freemind-patch-bindings.patch
+Patch0:         freemind-patch-bindings.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
-Requires:       mozilla-firefox
+Requires:       firefox
 Requires:       crimson
 Requires:       simplyhtml
 Requires:       jakarta-commons-lang
@@ -87,101 +83,102 @@ Group:          Development/Java
 Javadoc for %{name}.
 
 %prep
-%setup -q -n %{name}
+%setup -q -c
+find . -name '*.jar' | xargs -t %{__rm}
+pushd freemind
 %{__cp} -a %{SOURCE4} .
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 %{__perl} -pi -e 's/^Class-Path:.*\n//' MANIFEST.MF
 %{__perl} -pi -e 's/^properties_folder = freemind$/properties_folder = .freemind/;' \
               -e 's|\./|file://%{_datadir}/%{name}/|g;' \
-              -e 's|mozilla|mozilla-firefox|;' \
+              -e 's|mozilla|firefox|;' \
   freemind.properties
 
 pushd lib/SimplyHTML
-%{__ln_s}f $(build-classpath simplyhtml) SimplyHTML.jar
-%{__ln_s}f $(build-classpath gnu-regexp) gnu-regexp-1.1.4.jar
+%{__ln_s} $(build-classpath simplyhtml) SimplyHTML.jar
+%{__ln_s} $(build-classpath gnu-regexp) gnu-regexp-1.1.4.jar
 popd
 
 pushd lib
-%{__rm} bindings.jar
-%{__ln_s}f $(build-classpath commons-lang) commons-lang-2.0.jar
-%{__rm} forms-1.0.5-src.zip
-%{__ln_s}f $(build-classpath jgoodies-forms) forms-1.0.5.jar
-%{__ln_s}f $(build-classpath junit) junit.jar
-%{__ln_s}f $(build-classpath jarbundler) jarbundler-1.8.1.jar
+%{__ln_s} $(build-classpath commons-lang) commons-lang-2.0.jar
+%{__ln_s} $(build-classpath jgoodies-forms) forms-1.0.5.jar
+%{__ln_s} $(build-classpath junit) junit.jar
+%{__ln_s} $(build-classpath jarbundler) jarbundler-1.8.1.jar
 popd
 
 pushd lib/jibx
-%{__ln_s}f $(build-classpath bcel) bcel.jar
-%{__ln_s}f $(build-classpath commons-logging) commons-logging-1.0.4.jar
-%{__ln_s}f $(build-classpath jaxme/ws-jaxmejs) jaxme-js-0.3.jar
-%{__ln_s}f $(build-classpath log4j) log4j-1.2.8.jar
-%{__ln_s}f $(build-classpath xpp3) xpp3.jar
-%{__ln_s}f $(build-classpath jibx/bind) jibx-bind.jar
-%{__ln_s}f $(build-classpath jibx/extras) jibx-extras.jar
-%{__ln_s}f $(build-classpath jibx/run) jibx-run.jar
-%{__ln_s}f $(build-classpath xsd2jibx) xsd2jibx.jar
+%{__ln_s} $(build-classpath bcel) bcel.jar
+%{__ln_s} $(build-classpath commons-logging) commons-logging-1.0.4.jar
+%{__ln_s} $(build-classpath jaxme/ws-jaxmejs) jaxme-js-0.3.jar
+%{__ln_s} $(build-classpath log4j) log4j-1.2.8.jar
+%{__ln_s} $(build-classpath xpp3) xpp3.jar
+%{__ln_s} $(build-classpath jibx/bind) jibx-bind.jar
+%{__ln_s} $(build-classpath jibx/extras) jibx-extras.jar
+%{__ln_s} $(build-classpath jibx/run) jibx-run.jar
+%{__ln_s} $(build-classpath xsd2jibx) xsd2jibx.jar
 popd
 
 pushd plugins/collaboration/jabber
-%{__ln_s}f $(build-classpath commons-logging) commons-logging.jar
-%{__ln_s}f $(build-classpath crimson) crimson-1.1.3.jar
-%{__ln_s}f $(build-classpath oro) jakarta-oro.jar
-%{__ln_s}f $(build-classpath jaxp) jaxp-1.1.jar
-%{__ln_s}f $(build-classpath jdom) jdom.jar
-%{__ln_s}f $(build-classpath log4j) log4j.jar
-%{__ln_s}f $(build-classpath muse) muse.jar
+%{__ln_s} $(build-classpath commons-logging) commons-logging.jar
+%{__ln_s} $(build-classpath crimson) crimson-1.1.3.jar
+%{__ln_s} $(build-classpath oro) jakarta-oro.jar
+%{__ln_s} $(build-classpath jaxp) jaxp-1.1.jar
+%{__ln_s} $(build-classpath jdom) jdom.jar
+%{__ln_s} $(build-classpath log4j) log4j.jar
+%{__ln_s} $(build-classpath muse) muse.jar
 popd
 
 pushd plugins/help
-%{__ln_s}f $(build-classpath javahelp2) jhall.jar
+%{__ln_s} $(build-classpath javahelp2) jhall.jar
 popd
 
 pushd plugins/latex
-# XXX: non-free
-%{__rm} HotEqn.jar
+# FIXME: non-free HotEqn.jar
 popd
 
 pushd plugins/script
-# FIXME: not in mdv (requires maven to build)
-%{__rm} groovy-all-1.0.jar
+# FIXME: not in mdv (requires maven to build) groovy-all-1.5.6.jar
 popd
 
 pushd plugins/svg
-%{__ln_s}f $(build-classpath batik-all) batik-awt-util.jar
-%{__ln_s}f $(build-classpath batik-all) batik-bridge.jar
-%{__ln_s}f $(build-classpath batik-all) batik-css.jar
-%{__ln_s}f $(build-classpath batik-all) batik-dom.jar
-%{__ln_s}f $(build-classpath batik-all) batik-ext.jar
-%{__ln_s}f $(build-classpath batik-all) batik-extension.jar
-%{__ln_s}f $(build-classpath batik-all) batik-gui-util.jar
-%{__ln_s}f $(build-classpath batik-all) batik-gvt.jar
-%{__ln_s}f $(build-classpath batik-all) batik-parser.jar
-%{__ln_s}f $(build-classpath batik-all) batik-script.jar
-%{__ln_s}f $(build-classpath batik-squiggle) batik-squiggle.jar
-%{__ln_s}f $(build-classpath batik-all) batik-svg-dom.jar
-%{__ln_s}f $(build-classpath batik-all) batik-svggen.jar
-%{__ln_s}f $(build-classpath batik-all) batik-swing.jar
-%{__ln_s}f $(build-classpath batik-all) batik-transcoder.jar
-%{__ln_s}f $(build-classpath batik-all) batik-util.jar
-%{__ln_s}f $(build-classpath batik-all) batik-xml.jar
-%{__ln_s}f $(build-classpath rhino) js.jar
-%{__ln_s}f $(build-classpath pdf-transcoder) pdf-transcoder.jar
-%{__ln_s}f $(build-classpath xerces-j2) xerces_2_5_0.jar
-%{__ln_s}f $(build-classpath xml-commons-apis) xml-apis.jar
+%{__ln_s} $(build-classpath batik-all) batik-awt-util.jar
+%{__ln_s} $(build-classpath batik-all) batik-bridge.jar
+%{__ln_s} $(build-classpath batik-all) batik-css.jar
+%{__ln_s} $(build-classpath batik-all) batik-dom.jar
+%{__ln_s} $(build-classpath batik-all) batik-ext.jar
+%{__ln_s} $(build-classpath batik-all) batik-extension.jar
+%{__ln_s} $(build-classpath batik-all) batik-gui-util.jar
+%{__ln_s} $(build-classpath batik-all) batik-gvt.jar
+%{__ln_s} $(build-classpath batik-all) batik-parser.jar
+%{__ln_s} $(build-classpath batik-all) batik-script.jar
+%{__ln_s} $(build-classpath batik-squiggle) batik-squiggle.jar
+%{__ln_s} $(build-classpath batik-all) batik-svg-dom.jar
+%{__ln_s} $(build-classpath batik-all) batik-svggen.jar
+%{__ln_s} $(build-classpath batik-all) batik-swing.jar
+%{__ln_s} $(build-classpath batik-all) batik-transcoder.jar
+%{__ln_s} $(build-classpath batik-all) batik-util.jar
+%{__ln_s} $(build-classpath batik-all) batik-xml.jar
+%{__ln_s} $(build-classpath rhino) js.jar
+%{__ln_s} $(build-classpath pdf-transcoder) pdf-transcoder.jar
+%{__ln_s} $(build-classpath xerces-j2) xerces_2_5_0.jar
+%{__ln_s} $(build-classpath xml-commons-apis) xml-apis.jar
 popd
 
 JARS=`%{_bindir}/find . ! -type l -name '*.jar'`
 test -z "$JARS" || exit 1
 
+# FIXME: non-free HotEqn.jar
 %{__rm} -r plugins/latex
+# FIXME: missing groovy-1.5.6
 %{__rm} -r plugins/script
+popd
 
 %build
+pushd freemind
 export OPT_JAR_LIST="`%{__cat} %{_sysconfdir}/ant.d/nodeps` `%{__cat} %{_sysconfdir}/ant.d/trax`"
-export CLASSPATH=
-%{ant} all
+export CLASSPATH=$(build-classpath avalon-framework)
+%{ant} all doc
+popd
 
 %install
 %{__rm} -rf %{buildroot}
@@ -216,20 +213,22 @@ export CLASSPATH=
 %{__mkdir_p} %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
 %{__mkdir_p} %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
 
+pushd freemind
 %{_bindir}/convert -scale 32 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %{_bindir}/convert -scale 16 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{name}.png
 %{_bindir}/convert -scale 32 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
 %{_bindir}/convert -scale 48 images/FreeMindWindowIcon.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+popd
 
 %{__mkdir_p} %{buildroot}%{_datadir}/mime/packages
 %{__cp} -a %{SOURCE3} %{buildroot}%{_datadir}/mime/packages/
 
 pushd %{buildroot}%{_datadir}/%{name}
 %{__rm} freemind.bat
-%{__rm} Freemind.exe
+%{__rm} FreeMind.exe
 %{__rm} freemind.sh
 %{__rm} -r doc/javadoc
-%{__ln_s} %{_javadocdir}/%{name} doc/javadoc
+%{__ln_s}f %{_javadocdir}/%{name} doc/javadoc
 %{__ln_s}f %{_javadir}/freemindbrowser.jar browser/freemindbrowser.jar
 %{__ln_s}f %{_javadir}/freemind.jar lib/freemind.jar
 %{__ln_s}f $(build-classpath jgoodies-forms) lib/forms-1.0.5.jar
@@ -314,5 +313,5 @@ popd
 
 %files javadoc
 %defattr(0644,root,root,0755)
-%doc %{_javadocdir}/%{name}-%{version}
-%doc %{_javadocdir}/%{name}
+%{_javadocdir}/%{name}-%{version}
+%{_javadocdir}/%{name}
