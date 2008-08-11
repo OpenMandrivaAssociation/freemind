@@ -291,7 +291,7 @@ popd
 
 %files
 %defattr(0644,root,root,0755)
-%doc history.txt license
+%doc freemind/history.txt freemind/license freemind/readme.txt
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/mime/packages/%{name}.xml
