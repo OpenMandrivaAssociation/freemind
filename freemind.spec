@@ -33,7 +33,7 @@ BuildRequires:  ant
 BuildRequires:  ant-nodeps
 BuildRequires:  ant-trax
 BuildRequires:  desktop-file-utils
-BuildRequires:  ImageMagick
+BuildRequires:  imagemagick
 BuildRequires:  java-rpmbuild
 BuildRequires:  crimson
 BuildRequires:  simplyhtml
