@@ -3,18 +3,19 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.7
+Release:        %mkrel 0.0.8
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
 URL:            http://freemind.sourceforge.net/
 Group:          Development/Java
-Source0:        http://downloads.sourceforge.net/sourceforge/freemind/freemind-src-0.9.0_Beta_19.tar.gz
+Source0:        http://downloads.sourceforge.net/sourceforge/freemind/freemind-src-0.9.0_RC_6.tar.gz
 Source1:        freemind.desktop
 Source2:        freemind.sh
 Source3:        freemind.xml
 Source4:        freemind-bindings.patch
 Patch0:         freemind-patch-bindings.patch
+Patch1:		freemind-fix-jarbundler-path.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 Requires:       firefox
@@ -84,10 +85,11 @@ Javadoc for %{name}.
 
 %prep
 %setup -q -c
+%patch1 -p0
 find . -name '*.jar' | xargs -t %{__rm}
 pushd freemind
-%{__cp} -a %{SOURCE4} .
-%patch0 -p1
+#%{__cp} -a %{SOURCE4} .
+#%patch0 -p1
 %{__perl} -pi -e 's/^Class-Path:.*\n//' MANIFEST.MF
 %{__perl} -pi -e 's/^properties_folder = freemind$/properties_folder = .freemind/;' \
               -e 's|\./|file://%{_datadir}/%{name}/|g;' \
@@ -177,7 +179,7 @@ popd
 pushd freemind
 export OPT_JAR_LIST="`%{__cat} %{_sysconfdir}/ant.d/nodeps` `%{__cat} %{_sysconfdir}/ant.d/trax`"
 export CLASSPATH=$(build-classpath avalon-framework)
-%{ant} all doc
+%{ant} --execdebug all doc
 popd
 
 %install
