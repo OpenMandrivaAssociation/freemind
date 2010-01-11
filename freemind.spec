@@ -15,7 +15,7 @@ Source2:        freemind.sh
 Source3:        freemind.xml
 Source4:        freemind-bindings.patch
 Patch0:         freemind-patch-bindings.patch
-Patch1:		freemind-fix-jarbundler-path.patch
+Patch1:		freemind-fix-hyperlink-function.patch
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 Requires:       firefox
@@ -105,7 +105,7 @@ pushd lib
 %{__ln_s} $(build-classpath commons-lang) commons-lang-2.0.jar
 %{__ln_s} $(build-classpath jgoodies-forms) forms-1.0.5.jar
 %{__ln_s} $(build-classpath junit) junit.jar
-%{__ln_s} $(build-classpath jarbundler) jarbundler-1.8.1.jar
+%{__ln_s} $(build-classpath jarbundler) jarbundler-2.0.0.jar
 popd
 
 pushd lib/jibx
@@ -179,7 +179,7 @@ popd
 pushd freemind
 export OPT_JAR_LIST="`%{__cat} %{_sysconfdir}/ant.d/nodeps` `%{__cat} %{_sysconfdir}/ant.d/trax`"
 export CLASSPATH=$(build-classpath avalon-framework)
-%{ant} --execdebug all doc
+%{ant} all doc 
 popd
 
 %install
