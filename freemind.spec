@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.8
+Release:        %mkrel 0.0.9
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
@@ -205,10 +205,8 @@ popd
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__cp} -a bin/dist/* %{buildroot}%{_datadir}/%{name}/
 
-# freedesktop.org menu entry
-%{_bindir}/desktop-file-install --vendor="" \
-  --remove-category="Application" \
-  --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
+# install .destop file
+desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
 
 %{__mkdir_p} %{buildroot}%{_datadir}/pixmaps
 %{__mkdir_p} %{buildroot}%{_datadir}/icons/hicolor/16x16/apps
