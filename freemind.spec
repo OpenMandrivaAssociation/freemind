@@ -3,7 +3,7 @@
 
 Name:           freemind
 Version:        0.9.0
-Release:        %mkrel 0.0.9
+Release:        %mkrel 0.0.10
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
