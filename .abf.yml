@@ -1,0 +1,6 @@
+sources:
+  "freemind-bindings.patch:"	321b46aa56b800ee88a52bc27a2772dd699c1619
+  "freemind.desktop:"	ea7ee4043fc14057d78176241758eed8e1758d92
+  "freemind.sh:"	c53766d3858e463787aa3c99525c7931254dcc49
+  "freemind-src-0.9.0_RC_6.tar.gz:"	81691b0175f9ea27ff503b964794c789803d3d8a
+  "freemind.xml:"	2dbfa55554d684e6dcc0fc55aad9165a2c47163e

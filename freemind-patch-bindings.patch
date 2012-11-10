@@ -1,0 +1,12 @@
+--- freemind/build.xml~	2007-12-30 00:53:52.000000000 +0100
++++ freemind/build.xml	2007-12-30 01:01:55.000000000 +0100
+@@ -66,6 +66,9 @@
+ 			<arg line="-d binding/src" />
+ 			<arg file="freemind_actions.xsd" />
+ 		</java>
++		<exec executable="/bin/sh" dir=".">
++			<arg line='-c "/usr/bin/patch -p0 &lt; ./freemind-bindings.patch"'/>
++		</exec>
+ 		<javac srcdir="binding/src" destdir="binding/classes" source="${java_source_version}" target="${java_target_version}" debug="on" />
+ 		<xslt style="binding.xslt" in="binding/src/freemind/controller/actions/generated/instance/binding.xml" out="binding_new.xml" />
+ 		<move file="binding_new.xml" tofile="binding/src/freemind/controller/actions/generated/instance/binding.xml" overwrite="true" />

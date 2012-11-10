@@ -1,0 +1,22 @@
+Index: freemind/accessories/plugins/NodeNoteRegistration.java
+===================================================================
+--- freemind/accessories/plugins/NodeNoteRegistration.java
++++ freemind/accessories/plugins/NodeNoteRegistration.java	2010-01-11 23:49:30.000000000 +0100
+@@ -344,7 +344,7 @@
+ 	        noteViewerComponent.getDocument().getStyleSheet().addRule(rule);
+ 	        // done setting default font.
+     	}
+-    	noteViewerComponent.setOpenHyperlinkHandler(new ActionListener(){
++    	/*noteViewerComponent.setOpenHyperlinkHandler(new ActionListener(){
+ 
+ 			public void actionPerformed(ActionEvent pE) {
+ 				try {
+@@ -352,7 +352,7 @@
+ 				} catch (Exception e) {
+ 					freemind.main.Resources.getInstance().logException(e);
+ 				}
+-			}});
++			}});*/
+     	mSplitPane = controller.getFrame().insertComponentIntoSplitPane(
+     			southPanel);
+     	southPanel.revalidate();
