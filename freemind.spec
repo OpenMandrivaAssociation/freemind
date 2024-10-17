@@ -7,7 +7,7 @@ Release:        %mkrel 0.0.11
 Epoch:          1
 Summary:        Free mind mapping software
 License:        GPL
-URL:            http://freemind.sourceforge.net/
+URL:            https://freemind.sourceforge.net/
 Group:          Development/Java
 Source0:        http://downloads.sourceforge.net/sourceforge/freemind/freemind-src-0.9.0_RC_6.tar.gz
 Source1:        freemind.desktop
